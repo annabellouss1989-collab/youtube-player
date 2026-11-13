@@ -1,0 +1,17 @@
+<!doctype html>
+<!-- The YouTube player for HTML pages of sections (roadmap 1.14). YouTube plays only on a page that has a site address; a page opened
+     from the disk has none, so it shows YouTube through this page, published on GitHub Pages (repository youtube-player, index.html).
+     Only a video number goes in; nothing else is read or sent. -->
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Проигрыватель YouTube</title>
+<style>html,body,iframe{margin:0;width:100%;height:100%;border:0;overflow:hidden;background:#000}</style>
+<body><script>
+const params=new URLSearchParams(location.search),video=params.get('video'),list=params.get('list');
+if(/^[\w-]{11}$/.test(video||'')||/^[\w-]+$/.test(list||'')){
+ const url=new URL('https://www.youtube-nocookie.com/embed/'+(/^[\w-]{11}$/.test(video||'')?video:'videoseries'));
+ if(/^[\w-]+$/.test(list||''))url.searchParams.set('list',list);
+ for(const key of ['autoplay','start','rel'])if(/^\d+$/.test(params.get(key)||''))url.searchParams.set(key,params.get(key));
+ url.searchParams.set('playsinline','1');url.searchParams.set('origin',location.origin);
+ const frame=document.createElement('iframe');frame.src=url.href;frame.title='Видео YouTube';frame.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';frame.allowFullscreen=true;frame.referrerPolicy='strict-origin-when-cross-origin';
+ document.body.append(frame);
+}
+</script></body></html>
